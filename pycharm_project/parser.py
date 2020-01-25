@@ -1,7 +1,7 @@
 import pytesseract
 import cv2
 
-IS_DEBUG = True
+IS_DEBUG = False
 
 dataset = {}
 def read_dataset():
@@ -22,19 +22,22 @@ def read_dataset():
         line = description.readline()
     description.close()
 
-def parse_data(filename):
+def parse_data(filename, resize=5, gray_border=200):
     data = cv2.imread("images/" + filename)
     parsed = {}
     for name in dataset:
         parsed[name] = {}
         (x,y,w,h) = dataset[name]['xywh']
         image = data[y:(y+h), x:(x+w)]
-        image = cv2.resize(image, None, fx=7, fy=7, interpolation=cv2.INTER_CUBIC)
+        image = cv2.resize(image, None, fx=resize, fy=resize, interpolation=cv2.INTER_CUBIC)
 
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        gray = cv2.threshold(gray, 0, 255,
-                                 cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-        #gray = cv2.medianBlur(gray, 3)
+        gray = cv2.threshold(gray, gray_border, 255,
+                             cv2.THRESH_TRUNC)[1]
+        gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+        if (dataset[name]["order"] < 4):
+            gray = cv2.bitwise_not(gray)
+
         config = ("-l rus --oem 2 --psm 7")
         text = pytesseract.image_to_string(gray, config=config)
         parsed[name] = text
@@ -61,7 +64,7 @@ def print_ordered(parsed):
 
 def main():
     read_dataset()
-    parsed = parse_data("data.png")
+    parsed = parse_data("data.png", 3, 200)
     print_ordered(parsed)
 
 if __name__ == "__main__":
