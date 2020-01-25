@@ -32,4 +32,4 @@ screen_parsing - программа на языке python с использов
 
 
 
-#### [Отчёт по работе](https://github.com/d3dx13/screen_parsing/report/report.pdf)
+#### [Отчёт по работе](https://github.com/d3dx13/screen_parsing/blob/master/report/report.pdf)
