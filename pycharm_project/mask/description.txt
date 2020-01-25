@@ -1,0 +1,39 @@
+---
+mask1.png
+№ плавки
+---
+mask2.png
+№ партии
+---
+mask3.png
+№ трубы
+---
+mask4.png
+Пакет
+---
+mask5.png
+Сталь
+---
+mask6.png
+DxS, мм
+---
+mask7.png
+Гр. прочн.
+---
+mask8.png
+Тип соед.
+---
+mask9.png
+ПЗ по п./с.
+---
+mask10.png
+Потреб.
+---
+mask11.png
+Специф.
+---
+mask12.png
+Исполн.
+---
+mask13.png
+НД1

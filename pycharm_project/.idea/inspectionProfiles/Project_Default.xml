@@ -5,6 +5,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="CodeBattlePython.loderunnerclient.Main.loderunnerclient" />
+          <option value="cv2.imread" />
         </list>
       </option>
     </inspection_tool>

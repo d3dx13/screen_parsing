@@ -6,25 +6,27 @@ import os
 def get_text(filename):
     # load the example image and convert it to grayscale
     image = cv2.imread(filename)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.resize(image, None, fx=19, fy=19, interpolation=cv2.INTER_CUBIC)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # check to see if we should apply thresholding to preprocess the
-    # image
     gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+    #low_green = (0, 0, 0)
+    #high_green = (360, 255, 160)
+    #gray = cv2.inRange(gray, low_green, high_green)
 
-    # make a check to see if median blurring should be done to remove
-    # noise
-    # gray = cv2.medianBlur(gray, 5)
+    #gray = cv2.GaussianBlur(gray,(3,3),cv2.BORDER_DEFAULT)
 
-    # load the image as a PIL/Pillow image, apply OCR, and then delete
-    # the temporary file
     temp = time.time()
-    text = pytesseract.image_to_string(gray)
+
+    config = ("-l rus --oem 2 --psm 7")
+    text = pytesseract.image_to_string(gray, config=config)
     print(filename + " >>> " + str(time.time() - temp))
     print(text)
     print()
 
     # show the output images
+    cv2.namedWindow("Output"+filename, cv2.WINDOW_NORMAL)
     cv2.imshow("Output"+filename, gray)
 
 path = 'images/'
